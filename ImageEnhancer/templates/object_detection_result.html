@@ -1,0 +1,85 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="content="width=1024","height=720", initial-scale=1.0, maximum-scale=1, user-scalable=no">
+{% load static %}
+
+{% block content %}
+<style>
+  body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+  }
+  #object-detection-result {
+    background-image: url('{% static "obj_det_ress.jpg" %}');
+    background-size: cover;
+    background-position: center;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: relative; /* Add position relative to allow absolute positioning of the button */
+  }
+  #object-detection-result h2 {
+    background: linear-gradient(to right, #ff0000, #ff69b4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 3rem;
+    margin-bottom: 20px;
+  }
+  #object-detection-result img {
+    max-width: 60%; /* Set the maximum width of the image */
+    max-height: 60vh; /* Set the maximum height of the image */
+    margin-top: 20px; /* Adjust margin as needed */
+  }
+  #object-detection-result p {
+    background: linear-gradient(to right, #00ff00, #00ffff); /* Text color gradient */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 30px; /* Increase font size */
+    margin-top: 20px;
+  }
+  /* Style for the download button */
+  .download-button {
+    position: absolute;
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    margin-top: 200px;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+
+  /* Attribution text */
+  .attribution {
+      position: absolute;
+      bottom: 0px;
+      right: 10px;
+      font-size: 14px;
+      color: green;
+  }
+
+  .attribution a {
+      color: yellow;
+      text-decoration: none;
+  }
+</style>
+</head>
+<section id="object-detection-result">
+  <h2>Object Detection Result</h2>
+  <img src="{{ processed_image_url }}" alt="Processed Image"><br>
+  <a href="{{ processed_image_url }}" download class="download-button">Download Image</a><br><br><br><br>
+  <p>For Detection With Labels/Names, Please Use Image Classifier.</p>
+  <!-- Download button -->
+</section>
+<p class="attribution">Background-Image By <a href="https://www.freepik.com/free-photo/futuristic-background-with-colorful-glowing-abstract-neon-lights_11942143.htm#query=futuristic%20background&position=39&from_view=keyword&track=ais&uuid=d83619e3-39c9-416e-a14b-a0c56112d555">Wirestock</a> On Freepik</p>
+
+{% endblock %}
+</html>

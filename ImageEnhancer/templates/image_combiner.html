@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="content="width=1024","height=720", initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <title>Image Combiner</title>
+</head>
+<body>
+    <h1>Image Combiner</h1>
+    <form id="imageForm" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <label for="image1">Image 1:</label>
+        <input type="file" id="image1" name="image1" accept="image/*" required><br><br>
+        <label for="image2">Image 2:</label>
+        <input type="file" id="image2" name="image2" accept="image/*" required><br><br>
+        <input type="submit" value="Combine Images">
+    </form>
+    <div id="outputImageContainer" style="display: none;">
+        <h2>Combined Image:</h2>
+        <img id="outputImage" src="" alt="Combined Image">
+    </div>
+
+    <script>
+        document.getElementById('imageForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const formData = new FormData(this);
+
+            try {
+                const response = await fetch('/media/combined_image_horizontal.png', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                // Display the combined image
+                const outputImageContainer = document.getElementById('outputImageContainer');
+                const outputImage = document.getElementById('outputImage');
+                outputImage.src = data.output_image_path;
+                outputImageContainer.style.display = 'block';
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    </script>
+</body>
+</html>

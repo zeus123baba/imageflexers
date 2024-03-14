@@ -1,0 +1,173 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="content="width=1024","height=720", initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <title>Image Cartoonizer</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background-image: url('{% static "cartoon.jpg" %}');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+        h1 {
+            text-align: center;
+            background: linear-gradient(to right, orange, red);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 50px;
+        }
+        img {
+            width: 300px;
+            height: 300px;
+        }
+        h2 {
+            text-align: center;
+            background: linear-gradient(to right, blue, violet);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 30px;
+        }
+        /* Hide download button and loading animation by default */
+        #download-button,
+        #loading-container {
+            display: none;
+        }
+        #loading-symbol {
+            border: 8px solid #f3f3f3; /* Light grey */
+            border-top: 8px solid #1BD3E3; /* Blue */
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+            margin-top: 20px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        #loading-text {
+            text-align: center;
+            background: linear-gradient(to right, red, yellow);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 40px;
+        }
+        /* Download button style */
+        .download-button {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 10px;
+        }
+        input[type="file"] { /* Style the placeholder text */
+            color: white;
+        }
+        /* Download button hover effect */
+        .download-button:hover {
+            background-color: #45a049;
+        }
+        /* Attribution text */
+        .attribution {
+            position: absolute;
+            bottom: 0px;
+            right: 10px;
+            font-size: 14px;
+            color: green;
+        }
+      
+        .attribution a {
+            color: yellow;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Image Cartoonizer</h1><br><br><br>
+        <form id="cartoonize-form" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name="image" accept="image/*" required>
+            <!-- Remove disabled attribute -->
+            <button id="cartoonize-button" type="submit">Cartoonize</button>
+        </form>
+    
+        <div id="loading-container">
+            <div id="loading-symbol"></div>
+            <p id="loading-text">Your Image Is Being Cartoonized. It May Take Up to 10 Minutes. Please Wait.</p>
+        </div>
+        
+        {% if output_image_path %}
+        <h2>Output Image:</h2>
+        <img src="{{ output_image_path }}" alt="Output Image">
+        <!-- Add download button -->
+        <a href="{{ output_image_path }}" download class="download-button">Download Image</a>
+        {% endif %}
+    </div>
+    <p class="attribution">Background-Image By <a href="https://www.freepik.com/free-photo/3d-neon-lights-background_60000629.htm#fromView=search&page=2&position=13&uuid=48a951bc-09ab-48ef-8335-61a987e9bcae">freepik</a> On Freepik</p>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const cartoonizeForm = document.getElementById('cartoonize-form');
+            const cartoonizeButton = document.getElementById('cartoonize-button');
+            const downloadButton = document.getElementById('download-button');
+            const outputImage = document.querySelector('.container img');
+            const loadingContainer = document.getElementById('loading-container');
+            const loadingText = document.getElementById('loading-text');
+            const loadingSymbol = document.getElementById('loading-symbol');
+
+            // Add event listener to form submit
+            cartoonizeForm.addEventListener('submit', function() {
+                // Disable the cartoonize button
+                cartoonizeButton.disabled = true;
+                // Show loading container
+                loadingContainer.style.display = 'block';
+                // Hide previous output image and download button
+                outputImage.style.display = 'none';
+                downloadButton.style.display = 'none';
+                // Show loading symbol animation
+                loadingSymbol.innerHTML = '<img src="{% static "loading.gif" %}" alt="Loading Symbol">';
+                // Show loading text
+                loadingText.style.display = 'block';
+            });
+
+            // Show download button if output image exists
+            if ('{{ output_image_path }}') {
+                downloadButton.style.display = 'inline-block';
+            }
+
+            // Add event listener to cartoonize button click
+            cartoonizeButton.addEventListener('click', function() {
+                // Reset the button text
+                cartoonizeButton.textContent = 'Cartoonize';
+                // Show the output image and download button
+                outputImage.style.display = 'inline-block';
+                downloadButton.style.display = 'inline-block';
+                // Hide loading container
+                loadingContainer.style.display = 'none';
+                // Hide loading text
+                loadingText.style.display = 'none';
+            });
+        });
+    </script>
+</body>
+</html>

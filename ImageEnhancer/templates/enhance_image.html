@@ -1,0 +1,213 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="content="width=1024","height=720", initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <title>Enhance Image</title>
+    <style>
+        /* Center the content horizontally */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Make the body fill the entire viewport height */
+            margin: 0; /* Remove default margin */
+            padding: 0; /* Remove default padding */
+            /* Add background image */
+            background-image: url('{% static "enhanc.jpg" %}');
+            background-size: cover; /* Cover the entire background */
+            background-position: center; /* Center the background image */
+            position: relative; /* Set position to relative for absolute positioning */
+        }
+
+        /* Center the content vertically */
+        .container {
+            text-align: center;
+            margin-top: 0px;
+            position: relative; /* Set position to relative for absolute positioning */
+            z-index: 2; /* Ensure text and buttons appear above the background image and centered image */
+        }
+
+        h1 {
+            color: #FF00E3;
+            z-index: 2; /* Ensure text appears above other elements */
+        }
+
+        /* Loading circle styles */
+        .loader {
+            border: 8px solid #f3f3f3; /* Light grey */
+            border-top: 8px solid #3498db; /* Blue */
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1.5s linear infinite;
+            margin-bottom: 20px;
+            margin-left: -30px;
+            display: none; /* Initially hidden */
+            position: absolute; /* Set position to absolute for precise placement */
+            left: 50%; /* Center horizontally */
+            top: 50%; /* Center vertically */
+            transform: translate(-50%, -50%); /* Center the loader */
+            z-index: 2; /* Ensure loader appears above other elements */
+        }
+
+        /* Text styles */
+        .loading-text {
+            color: #1CFFEB; /* White */
+            display: none; /* Initially hidden */
+            font-size: 40px;
+            font-weight: bold; /* Set the text to bold */
+            background: linear-gradient(to right, #FFC0CB, #FF0000); /* Gradient colors */
+            -webkit-background-clip: text; /* Clip text to the background */
+            -webkit-text-fill-color: transparent; /* Set text color to transparent */
+            position: absolute; /* Set position to absolute for precise placement */
+            left: 50%; /* Center horizontally */
+            top: 60%; /* Adjust as needed */
+            transform: translateX(-50%); /* Center the text horizontally */
+            z-index: 2; /* Ensure text appears above other elements */
+        }
+
+        /* Keyframe animation for the loading circle */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .gradient-text {
+            background: linear-gradient(to right, #1DF4A7, #11AFF5); /* Gradient colors */
+            -webkit-background-clip: text; /* Clip text to the background */
+            -webkit-text-fill-color: transparent; /* Set text color to transparent */
+        }
+
+        /* CSS for the centered image */
+        .centered-image {
+            position: absolute; /* Set position to absolute */
+            top: 50%; /* Center vertically */
+            left: 50%; /* Center horizontally */
+            margin-top: -100px;
+            transform: translate(-50%, -50%); /* Center the image */
+            z-index: 1; /* Set z-index lower than text and buttons but higher than background image */
+        }
+
+        /* CSS for the download button */
+        .download-button {
+            position: absolute;
+            bottom: 20px; /* Adjust as needed */
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+        }
+        img {
+            width: 540px;
+            height: 360px;
+        }
+        /* Attribution text */
+        .attribution {
+            position: absolute;
+            bottom: 0px;
+            right: 10px;
+            font-size: 14px;
+            color: green;
+        }
+      
+        .attribution a {
+            color: yellow;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>   
+    <!-- Add a div for the small image -->
+    <div class="centered-image">
+        <img src="{% static 'combined_image_horizontal12.jpg' %}" alt="Centered Image">
+    </div>
+    
+    <div class="container">
+        <h1 class="gradient-text">Upload & Enhance Your Image</h1>
+        <form id="upload-form" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name="image" id="image-input">
+            <button type="submit" id="enhance-button">Enhance Image</button>
+        </form>
+        <br> <br> <br> <br>
+        <!-- Display the loading circle and text while enhancing the image -->
+        <div class="loader"></div>
+        <p class="loading-text">Enhancing Your Image. This May Take Upto 5 Minutes. Please Wait.</p>
+    
+        <!-- Display the enhanced image -->
+        {% if enhanced_image_path %}
+        <div id="enhanced-image">
+            <h2>Enhanced Image</h2>
+            <img src="{{ MEDIA_URL }}/media/enhanced_image.png" alt="Enhanced Image" width="512" height="512">
+        </div>
+        <!-- Download button -->
+        <div class="download-button">
+            <a id="download-link" href="{{ MEDIA_URL }}/media/enhanced_image.png" download>
+                <button id="download-btn" type="button">Download Enhanced Image</button>
+            </a>
+        </div>
+        {% endif %}
+    </div>
+    <p class="attribution">Background-Image By <a href="https://www.freepik.com/free-photo/cosmic-background-with-dark-light-blue-laser-lights_11061963.htm#fromView=search&page=1&position=18&uuid=9c3a4a75-7896-4f20-a4a8-6d3d34887fb3">wirestock</a> On Freepik</p>
+    <!-- Script to show/hide the loading circle and text -->
+    <script>
+        // Function to disable the enhance button
+        function disableEnhanceButton() {
+            document.getElementById('enhance-button').setAttribute('disabled', true);
+        }
+    
+        // Function to enable the enhance button
+        function enableEnhanceButton() {
+            document.getElementById('enhance-button').removeAttribute('disabled');
+        }
+    
+        // Function to cancel the enhancement process
+        function cancelEnhancement() {
+            fetch('/cancel_enhancement_process')
+                .then(response => {
+                    if (response.ok) {
+                        console.log('Enhancement process canceled successfully.');
+                    } else {
+                        console.error('Error canceling enhancement process:', response.statusText);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error canceling enhancement process:', error);
+                });
+        }
+    
+        // Show loading circle and text when form is submitted
+        document.querySelector('form').addEventListener('submit', function() {
+            document.querySelector('.loader').style.display = 'inline-block';
+            document.querySelector('.loading-text').style.display = 'block';
+            disableEnhanceButton(); // Disable the enhance button
+            window.addEventListener('beforeunload', cancelEnhancement); // Listen for page unload event
+            // Remove previously enhanced image and download button
+            var enhancedImage = document.getElementById('enhanced-image');
+            var downloadButton = document.querySelector('.download-button');
+            if (enhancedImage) enhancedImage.remove();
+            if (downloadButton) downloadButton.remove();
+        });
+    
+        // Redirect to index.html after enhancing image
+        {% if enhanced_image_path %}
+        document.querySelector('#upload-form').addEventListener('submit', function() {
+            window.location.href = 'index.html';
+        });
+        {% endif %}
+    
+        // Remove enhanced image and download button when download button is clicked
+        document.getElementById('download-btn').addEventListener('click', function() {
+            var enhancedImage = document.getElementById('enhanced-image');
+            var downloadButton = document.querySelector('.download-button');
+            enhancedImage.remove();
+            setTimeout(function() {
+                downloadButton.remove();
+            }, 2000); // Remove after 2 seconds
+        });
+</script>
+</body>
+</html>
+    

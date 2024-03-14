@@ -1,0 +1,158 @@
+<!-- video_captioning.html -->
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="content="width=1024","height=720", initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <title>Video Captioning</title>
+    <style>
+        body {
+            background-image: url('{% static "vid_ques.jpg" %}'); /* Replace 'path/to/background-image.jpg' with the actual path to your background image */
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif; /* Optional: Change the font */
+            color: #fff; /* Optional: Change the text color */
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        form {
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        input[type="file"], input[type="text"], input[type="submit"] {
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 50px;
+            font-weight: bold;
+            background: linear-gradient(to right, cyan, green);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 50px;
+            font-weight: bold;
+            background: linear-gradient(to right, yellow, cyan);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            text-align: left;
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+        label {
+            font-size: 30px;
+            font-weight: bold;
+            background: linear-gradient(to right, pink, red);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Gradient for generated captions */
+        .generated-caption {
+            font-size:30px;
+            background: linear-gradient(to right, red, yellow); /* Change colors as desired */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline; /* Ensure the gradient applies to the text */
+            text-align: center;
+        }
+
+        /* Attribution text */
+        .attribution {
+            position: absolute;
+            bottom: 0px;
+            right: 10px;
+            font-size: 14px;
+            color: green;
+        }
+      
+        .attribution a {
+            color: yellow;
+            text-decoration: none;
+        }
+
+        input[type="file"] { /* Style the placeholder text */
+            color: yellow;
+        }
+
+        /* Loading animation */
+        .loading-animation {
+            display: none; /* Initially hide the loading animation */
+            width: 70px;
+            height: 70px;
+            border: 10px solid #1BD3E3; /* Change border color and width */
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Loading message */
+        .loading-message {
+            display: none; /* Initially hide the loading message */
+            font-size: 30px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Video Questioning</h1>
+        <form id="videoForm" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="video">Upload Video:</label><br><br>
+            <input type="file" id="video" name="video" accept="video/*" required><br><br>
+            <label for="text_prompt">Ask Your Question:</label><br><br>
+            <input type="text" id="text_prompt" name="text_prompt" maxlength=100 required><br>
+            <input type="submit" id="generateAnswerBtn" value="Generate Answer">
+        </form>
+        <div class="loading-animation"></div>
+        <p class="loading-message">Your Video Is Being Processed. It May Take Upto 10 Minutes. Please Wait.</p>
+        {% if generated_captions %}
+            <h2>Generated Answer:</h2>
+            <ul>
+            {% for caption in generated_captions %}
+                <li><span class="generated-caption">{{ caption }}</span></li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+    <p class="attribution">Background-Image By <a href="https://www.freepik.com/free-photo/liquid-marbling-paint-texture-background-fluid-painting-abstract-texture-intensive-color-mix-wallpaper_26935376.htm?query=futuristic%20background#from_view=detail_alsolike">benzoix</a> On Freepik</p>
+    <script>
+        // Disable the "Generate Answer" button when the form is submitted
+        document.getElementById("videoForm").addEventListener("submit", function() {
+            document.getElementById("generateAnswerBtn").disabled = true;
+            document.querySelector(".loading-animation").style.display = "block";
+            document.querySelector(".loading-message").style.display = "block";
+        });
+    </script>
+</body>
+</html>

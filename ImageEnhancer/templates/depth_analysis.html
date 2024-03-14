@@ -1,0 +1,92 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="content="width=1024","height=720", initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <title>Depth Analysis</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-image: url('{% static "city.jpg" %}');
+            background-size: cover;
+            background-position: center;
+        }
+        .container {
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .title {
+            font-size: 50px;
+            font-weight: bold;
+            background: linear-gradient(to right, cyan, green); /* Gradient colors */
+            -webkit-background-clip: text; /* Clip text to the background area */
+            -webkit-text-fill-color: transparent; /* Set text color transparent */
+            margin-bottom: 20px;
+        }
+        img {
+            width: 400px;
+            height: 200px;
+            margin-bottom: 20px; /* Add some space between the depth map and other elements */
+        }
+        h2 {
+            font-weight: bold;
+            background: linear-gradient(to right, red, pink); /* Gradient colors */
+            -webkit-background-clip: text; /* Clip text to the background area */
+            -webkit-text-fill-color: transparent; /* Set text color transparent */
+            font-size: 50px;
+
+        }
+        .download-btn {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #4CAF50; /* Green */
+            border: none;
+            border-radius: 5px;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        /* Attribution text */
+        .attribution {
+            position: absolute;
+            top: 0px;
+            right: 10px;
+            font-size: 14px;
+            color: green;
+        }
+      
+        .attribution a {
+            color: yellow;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">Depth & Topographic Analysis</h1><br><br>
+        <form action="{% url 'depth_analysis' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name="image" accept="image/*" required><br><br>
+            <button type="submit">Analyze Depth</button>
+        </form>
+
+        {% if depth_map_path %}
+        <h2>Depth Map</h2>
+        <img src="{{ depth_map_path }}" alt="Depth Map">
+        <a class="download-btn" href="{{ depth_map_path }}" download>Download Output Image</a>
+        {% endif %}
+    </div>
+    <p class="attribution">Background-Image By <a href="https://www.freepik.com/free-photo/victoria-harbor-aerial-view-with-hong-kong-skyline-urban-skyscrapers-night_26766971.htm?query=futuristic%20background#from_view=detail_alsolike#position=8&query=futuristic%20background">TravelScape</a> On Freepik</p>
+
+</body>
+</html>

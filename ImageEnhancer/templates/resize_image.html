@@ -1,0 +1,134 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="content="width=1024","height=720", initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <title>Image Resizer</title>
+    <style>
+        body {
+            background-image: url('{% static "residrof.jpg" %}');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .container form {
+            text-align: center;
+        }
+        h1 {
+            text-align: center;
+            background: linear-gradient(to right, green, cyan);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 50px;
+        }
+
+        h2 {
+            text-align: center;
+            background: linear-gradient(to right, blue, purple);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gradient-text {
+            background: linear-gradient(to right, red, pink);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 30px;
+        }
+        input[type="file"],
+        input[type="text"], /* Changed from 'number' to 'text' */
+        button {
+            display: block;
+            margin: 10px auto;
+        }
+        input[type="file"] { /* Style the placeholder text */
+            color: yellow;
+        }
+        img {
+            display: block;
+            margin: 20px auto;
+            max-width: 100%;
+            max-height: 300px; /* Limit the height of the displayed image */
+        }
+        .download-btn {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #4CAF50; /* Green */
+            border: none;
+            border-radius: 5px;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        /* Attribution text */
+        .attribution {
+            position: absolute;
+            bottom: 0px;
+            right: 10px;
+            font-size: 14px;
+            color: orange;
+        }
+
+        .attribution a {
+            color: yellow;
+            text-decoration: none;
+        }
+        .label-text {
+            font-size: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Image Resizer</h1><br>
+        <form action="{% url 'resize_image' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name="image" accept="image/*" required><br>
+            <label for="width" class="gradient-text">Width:</label>
+            <input type="text" name="width" id="width" required maxlength="5" max="10000"><br>
+            <label for="height" class="gradient-text">Height:</label>
+            <input type="text" name="height" id="height" required maxlength="5" max="10000"><br>
+            <button type="submit">Resize Image</button>
+        </form>
+
+        {% if resized_image %}
+        <h2>Resized Image</h2>
+        <img src="{{ resized_image }}" alt="Resized Image">
+        <button class="download-btn" onclick="downloadImage('{{ resized_image }}')">Download Resized Image</button>
+        {% endif %}
+    </div>
+    <p class="attribution">Background-Image By <a href="https://www.freepik.com/free-photo/modern-futuristic-sci-fi-background_19065876.htm#fromView=search&page=1&position=27&uuid=015e0217-b537-4dd7-841b-76c8e41eb7a1">user6702303</a> On Freepik</p>
+    <script>
+        function downloadImage(url) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", url, true);
+            xhr.responseType = "blob";
+            xhr.onload = function() {
+                var urlCreator = window.URL || window.webkitURL;
+                var imageUrl = urlCreator.createObjectURL(this.response);
+                var tag = document.createElement('a');
+                tag.href = imageUrl;
+                tag.download = "resized_image";
+                document.body.appendChild(tag);
+                tag.click();
+                document.body.removeChild(tag);
+            }
+            xhr.send();
+        }
+    </script>
+</body>
+</html>

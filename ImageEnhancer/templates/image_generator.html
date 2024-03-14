@@ -1,0 +1,184 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="content="width=1024","height=720", initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <title>Image Generator</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-image: url('{% static "img_genn.jpg" %}'); 
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        form {
+            margin-bottom: 50px;
+            text-align: center;
+            width: 80%;
+            margin-bottom: 20px; /* Add margin at the bottom to separate from the generated image */
+            font-size: 40px;
+        }
+
+        h1, h2 {
+            text-align: center;
+            font-size: 60px;
+        }
+
+        /* Apply color gradient to the label */
+        #t {
+            background: linear-gradient(to right, cyan, green);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 40px;
+        }
+
+        #h {
+            margin-top: 50px;
+            background: linear-gradient(to right, red, lavender);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Container for the generated image */
+        .image-container {
+            max-width: 100%; /* Maximum width */
+            max-height: 80vh; /* Maximum height */
+            overflow: hidden; /* Hide any overflowing content */
+        }
+
+        /* Style for the image */
+        .image-container img {
+            width: auto; /* Auto-adjust width */
+            height: auto; /* Auto-adjust height */
+            max-width: 70%; /* Maximum width */
+            max-height: 70%; /* Maximum height */
+            display: block; /* Ensure the image is displayed as a block element */
+            margin: 0 auto; /* Center the image horizontally */
+        }
+
+        #p {
+            text-align: center;
+            background: linear-gradient(to right, yellow, green);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Loader animation */
+        .loader {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto; /* Center the loader horizontally */
+        }
+
+        /* Keyframe animation for the loader */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        #loading {
+            display: none; /* Initially hide the loading element */
+        }
+
+        #loading-text {
+            font-size: 30px;
+            background: linear-gradient(to right, yellow, cyan);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Download button style */
+        .download-button {
+            margin-top: 20px;
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 10px;
+            align: center;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+        }
+
+        /* Download button hover effect */
+        .download-button:hover {
+            background-color: #45a049;
+        }
+
+        /* Attribution text */
+        .attribution {
+            position: absolute;
+            bottom: 0px;
+            right: 10px;
+            font-size: 14px;
+            color: green;
+        }
+      
+        .attribution a {
+            color: yellow;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="h">Image Generator</h1><br>
+    <form id="image-form" method="post" action="{% url 'generate_image' %}">
+        {% csrf_token %}
+        <label for="prompt" id="t">Enter Image Name:</label><br>
+        <input type="text" id="prompt" name="prompt" maxlength=50><br>
+        <button type="submit" id="generate-button">Generate Image</button>
+    </form>
+
+    <!-- Loader animation -->
+    <div id="loading">
+        <div class="loader"></div>
+        <p id="loading-text">Your Image Is Being Generated. It May Take Up To 10 Minutes. Please Wait.</p>
+    </div>
+    
+    {% if generated_image %}
+    <!-- Container for the generated image -->
+    <div class="image-container">
+        <h2 id="p">Generated Image</h2>
+        <img src="{{ generated_image }}">
+        <!-- Download button for the generated image -->
+        <a href="{{ generated_image }}" download class="download-button">Download Image</a>
+    </div>
+    {% endif %}
+    <p class="attribution">Background-Image By <a href="https://www.freepik.com/free-photo/cosmic-background-with-blue-laser-lights-with-cool-shapes-perfect-digital-wallpaper_13499680.htm#page=2&query=futuristic%20background&position=8&from_view=keyword&track=ais&uuid=c445d56d-2673-440b-ad51-a0c82e2130aa">Wirestock</a> On Freepik</p>
+
+    <script>
+        document.getElementById("image-form").addEventListener("submit", function() {
+            // Disable the "Generate Image" button
+            document.getElementById("generate-button").disabled = true;
+            // Show the loading element
+            document.getElementById("loading").style.display = "block";
+            // Remove previously generated image and download button
+            var imageContainer = document.querySelector(".image-container");
+            if (imageContainer) {
+                imageContainer.remove();
+        }            
+        });
+    </script>
+</body>
+</html>
+  

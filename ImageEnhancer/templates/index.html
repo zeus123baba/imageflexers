@@ -1,0 +1,345 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="content="width=1024","height=720", initial-scale=1.0, maximum-scale=1, user-scalable=no">
+  
+  <title>Squadfree Bootstrap Template - Index</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <!-- Vendor CSS Files -->
+  <link rel="stylesheet" type="text/css" href="{% static 'vendor/aos/aos.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'vendor/boxicons/css/boxicons.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'vendor/glightbox/css/glightbox.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'vendor/swiper/swiper-bundle.min.css' %}">
+  <!-- Template Main CSS File -->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+  <!-- =======================================================
+  * Template Name: Squadfree
+  * Updated: Jan 29 2024 with Bootstrap v5.3.2
+  * Template URL: https://bootstrapmade.com/squadfree-free-bootstrap-template-creative/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+  <style>
+    .hero-container {
+      position: relative;
+  }
+  
+  .hero-container:before {
+      content: '';
+      background-image: url('{% static "combined_image_horizontal12.jpg" %}');
+      margin-top: -50px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 700px; /* Adjust the width and height as needed */
+      height: 900px;
+      z-index: 0; /* Set z-index to a value lower than the centered text */
+  }
+
+  .hero-container:after {
+    background-image: url('{% static "the.jpg" %}');
+    margin-top: 50px; /* Adjust margin as needed */
+    margin-left: 400px; /* Adjust margin as needed */
+    width: 700px; /* Adjust width and height as needed */
+    height: 200px;
+    z-index: -1;
+  }
+  
+  .hero-container h1 {
+      position: relative; /* Ensure text stays above the small image */
+      z-index: 1; /* Set z-index to a value higher than the small image */
+  }
+
+  .discover-container {
+    position: relative;
+    text-align: center;
+  }
+
+  .positioned-button {
+    position: absolute;
+  }
+
+  #design {
+  top:  40px;
+  right: -250px;
+  }
+
+  #iques {
+    top:  58px;
+    right: 0;
+  }
+
+  #generator {
+    top: -27px;
+    left: -230px;
+  }
+
+  #depth {
+    top: 40px;
+    left: -285px;
+  }
+
+  #class {
+    top: -27px;
+    right: -220px;
+  }
+
+  #detect {
+    top: -100px;
+    left: -227px;
+  }
+
+  #cart {
+    top: 110px;
+    right: -228px;
+  }
+
+  #vques {
+    top: 127px;
+    left: -0px;
+  }
+
+  #vfps {
+    top: 262px;
+    left: -0px;
+  }
+
+  #enhan {
+    top: 110px;
+    left: -237px;
+  }
+
+  #ch {
+    top: 180px;
+    left: -300px;
+  }
+
+  #imgres {
+    top: -100px;
+    right: -212px;
+  }
+
+  #cv {
+    top: 180px;
+    right: -277px;
+  }
+  #enhcomp {
+    top: 250px;
+    right: -280px;
+  }
+  #comp {
+    top: 250px;
+    left: -260px;
+  }
+  #vcomp {
+    top: 195px;
+    left: -0px;
+  }
+
+</style>
+</head>
+<body data-aos-easing="ease-in-out" data-aos-duration="1000" data-aos-delay="0">
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top header-transparent">
+    <div class="container d-flex align-items-center justify-content-between position-relative" id = "pp">
+      <div class="logo">
+        <h1 class="text-light"><a href="#"><span>Image Enhancer</span></a></h1>
+        <!-- Uncomment below if you prefer to use an image logo -->
+        <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+      </div>
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link scrollto active" href="#">Home</a></li>
+          <li><a class="nav-link scrollto" href="{% url 'citations' %}">Citations</a></li>
+          <li><a class="nav-link scrollto" href="#services">Services</a></li>
+          <li><a class="nav-link scrollto" href="#footer">Contact</a></li>
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+    </div>
+  </header><!-- End Header -->
+  <!-- ======= Hero Section ======= -->
+  <section id="hero" style="position: relative;">
+    <div class="hero-container aos-init aos-animate" data-aos="fade-up">
+      <!-- Main content -->
+      <h1 style="z-index: 2;">Image Enhancer</h1>
+      <h2 style="z-index: 2;">Enhance Images Like Never Before</h2>
+      <a class="btn btn-primary" href="{% url 'enhance_image' %}" role="button" style="z-index: 2;">Image Resolution Enhancer</a>
+      <br>
+      <div class="discover-container" style="position: relative;">
+        <a href="#about" style="z-index: 2;">
+          <button id="discover" type="button" class="btn btn-outline-info">Discover More</button>
+        </a>
+        <!-- Add more buttons here enhance_image_compress-->
+        <a id="design" class="btn btn-primary positioned-button" href="{% url 'redesigner' %}" role="button" style="z-index: 2;">Image Editor (Redesigner)</a>
+        <a id="iques" class="btn btn-primary positioned-button" href="{% url 'process_image_questioning' %}" role="button" style="z-index: 2;">Image Questioning</a>
+        <a id="generator" class="btn btn-primary positioned-button" href="{% url 'generate_image' %}" role="button" style="z-index: 2;">Image Generator</a>
+        <!-- Add more buttons as needed -->
+        <a id="depth" class="btn btn-primary positioned-button" href="{% url 'depth_analysis' %}" role="button" style="z-index: 2;">Depth & Topographic Analysis</a>
+        <a id="class" class="btn btn-primary positioned-button" href="{% url 'classify_image' %}" role="button" style="z-index: 2;">Image Classifier</a>
+        <a id="detect" class="btn btn-primary positioned-button" href="{% url 'object_detection' %}" role="button" style="z-index: 2;">Object Detection</a>
+        <a id="cart" class="btn btn-primary positioned-button" href="{% url 'cartoonizer' %}" role="button" style="z-index: 2;">Image Cartoonizer</a>
+        <a id="vques" class="btn btn-primary positioned-button" href="{% url 'video_captioning' %}" role="button" style="z-index: 2;">Video Questioning</a>
+        <a id="vfps" class="btn btn-primary positioned-button" href="{% url 'video_fps_changer' %}" role="button" style="z-index: 2;">Video FPS Changer</a>
+        <a id="vcomp" class="btn btn-primary positioned-button" href="{% url 'video_compressor' %}" role="button" style="z-index: 2;">Video Compression</a>
+        <a id="enhan" class="btn btn-primary positioned-button" href="{% url 'compress_image' %}" role="button" style="z-index: 2;">Reduce Image Size</a>
+        <a id="ch" class="btn btn-primary positioned-button" href="{% url 'image_combiner' %}" role="button" style="z-index: 2;">Images Combiner - Horizontally</a>
+        <a id="imgres" class="btn btn-primary positioned-button" href="{% url 'resize_image' %}" role="button" style="z-index: 2;">Image Resizer</a>
+        <a id="cv" class="btn btn-primary positioned-button" href="{% url 'combine_images_vertically' %}" role="button" style="z-index: 2;">Images Combiner - Vertically</a>
+        <a id="enhcomp" class="btn btn-primary positioned-button" href="{% url 'enhance_image_compress' %}" role="button" style="z-index: 2;">Enhance & Compress Images</a>
+        <a id="comp" class="btn btn-primary positioned-button" href="{% url 'compress_image' %}" role="button" style="z-index: 2;">Fast Image Compression</a>
+
+      </div>
+    </div>
+  </section><!-- End Hero -->
+  <main id="main">
+    <!-- ======= About Section ======= -->
+    <section id="about" class="about">
+      <div class="container">
+        <div class="row no-gutters">
+          <div class="content col-xl-5 d-flex align-items-stretch aos-init aos-animate" data-aos="fade-up">
+            <div class="content">
+              <h3>Know The Features</h3>
+              <p>
+				Resurrect Even The Most Low Quality Images Into High Quality Images
+              </p>
+              <a href="#footer" class="about-btn">About Us <i class="bx bx-chevron-right"></i></a>
+            </div>
+          </div>
+          <div class="col-xl-7 d-flex align-items-stretch">
+            <div class="icon-boxes d-flex flex-column justify-content-center">
+              <div class="row">
+                <div class="col-md-6 icon-box aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
+                  <i class="bx bx-receipt"></i>
+                  <h4>Enhancement Quality</h4>
+                  <p>With High Precision, Get High Quality Images !</p>
+                </div>
+                <div class="col-md-6 icon-box aos-init aos-animate" data-aos="fade-up" data-aos-delay="200">
+                  <i class="bx bx-cube-alt"></i>
+                  <h4>Technology - Super Resolution</h4>
+                  <p>Equpped With Advanced Histogram Equalization For High Quality Enhancement !</p>
+                </div>
+                <div class="col-md-6 icon-box aos-init aos-animate" data-aos="fade-up" data-aos-delay="300">
+                  <i class="bx bx-images"></i>
+                  <h4>Usage: Cross-Platform</h4>
+                  <p>Enhance Your Images Via PC, Mobile Or Tablet !</p>
+                </div>
+                <div class="col-md-6 icon-box aos-init aos-animate" data-aos="fade-up" data-aos-delay="400">
+                  <i class="bx bx-shield"></i>
+                  <h4>Updates</h4>
+                  <p>We Are Constantly Working On Your Feedbacks For Improvements !</p>
+                </div>
+              </div>
+            </div><!-- End .content-->
+          </div>
+        </div>
+      </div>
+    </section><!-- End About Section -->
+    <!-- ======= Services Section ======= -->
+    <section id="services" class="services">
+      <div class="container">
+        <div class="section-title aos-init aos-animate" data-aos="fade-in" data-aos-delay="100">
+          <h2>Services</h2>
+          <p>With Super-Resolution Algorithm And Technology, Get High Quality Images ! We Have Plenty In Store For You, Coming Soon !</p>
+        </div>
+        <div class="row">
+          <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+            <div class="icon-box aos-init aos-animate" data-aos="fade-up">
+              <div class="icon"><i class="bx bxl-dribbble"></i></div>
+              <h4 class="title"><a href="">Applications</a></h4>
+              <p class="description">Useful In Photography, Image Quality Analysis And Image Complexity Analysis</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+            <div class="icon-box aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
+              <div class="icon"><i class="bx bx-file"></i></div>
+              <h4 class="title"><a href="">Technology</a></h4>
+              <p class="description">Enhancement Is Based On Mega Datasets Of Varying Image Quality</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+            <div class="icon-box aos-init aos-animate" data-aos="fade-up" data-aos-delay="200">
+              <div class="icon"><i class="bx bx-tachometer"></i></div>
+              <h4 class="title"><a href="">Speed</a></h4>
+              <p class="description">With Fast & High Computation Power, Enhance Images Seamlessly!</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+            <div class="icon-box aos-init aos-animate" data-aos="fade-up" data-aos-delay="300">
+              <div class="icon"><i class="bx bx-world"></i></div>
+              <h4 class="title"><a href="">Users</a></h4>
+              <p class="description">We Have Users From All Over The World ! </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section><!-- End Services Section -->
+    <!-- ======= Counts Section ======= -->
+    <!-- End Counts Section -->
+    <!-- ======= Cta Section ======= -->
+    <!-- End Cta Section -->
+    <!-- ======= Portfolio Section ======= -->
+    <!-- End Portfolio Section -->
+    <!-- ======= Testimonials Section ======= -->
+    <!-- End Testimonials Section -->
+    <!-- ======= Team Section ======= -->
+    <!-- End Team Section -->
+    <!-- ======= Contact Section ======= -->
+    <!-- End Contact Section -->
+  </main><!-- End #main -->
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+    <div class="footer-top">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-2 col-md-6 footer-links">
+            <h4>Useful Links</h4>
+            <ul>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">About us</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Services</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Privacy policy</a></li>
+            </ul>
+          </div>
+          <div class="col-lg-2 col-md-6 footer-links">
+			<h4>Contact Us</h4>
+			<p>Email: techtonic.labs.z@gmail.com
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="copyright">2024
+        © Copyright <strong><span>ImageEnhancer</span></strong>. All Rights Reserved
+      </div>
+    </div>
+  </footer><!-- End Footer -->
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <!-- Vendor JS Files -->
+  <script src="{% static 'vendor/purecounter/purecounter_vanilla.js' %}"></script>
+  <script src="{% static 'vendor/aos/aos.js' %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'vendor/glightbox/js/glightbox.min.js' %}"></script>
+  <script src="{% static 'vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+  <script src="{% static 'vendor/swiper/swiper-bundle.min.js' %}"></script>
+  <script src="{% static 'vendor/php-email-form/validate.js' %}"></script>
+  <!-- Template Main JS File -->
+  <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="content="width=1024","height=720", initial-scale=1.0, maximum-scale=1, user-scalable=no">
+
+{% load static %}
+
+
+{% block content %}
+<style>
+  body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+  }
+  #object-detection h2 {
+    background: linear-gradient(to right, #ff69b4, #ff0000);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 70px;
+  }
+  /* Attribution text */
+  .attribution {
+      position: absolute;
+      bottom: 0px;
+      right: 10px;
+      font-size: 14px;
+      color: green;
+  }
+
+  .attribution a {
+      color: yellow;
+      text-decoration: none;
+  }
+  input[type="file"] { /* Style the placeholder text */
+    color: yellow;
+  }
+</style>
+</head>
+<section id="object-detection" style="background-image: url('{% static "obj_dett.jpg" %}'); background-size: cover; background-position: center; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center;">
+  <div style="text-align: center;">
+    <h2>Object Detection</h2>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <input type="file" name="image" accept="image/*" required>
+      <button type="submit">Detect Objects</button>
+    </form>
+  </div>
+</section>
+<p class="attribution">Background-Image By <a href="https://www.freepik.com/free-photo/futuristic-sci-fi-space-tunnel-passageway-with-glowing-shiny-lights_10542835.htm#query=futuristic%20background&position=57&from_view=keyword&track=ais&uuid=34669b3c-b40b-44a5-b3d7-51b1d7493ef6">Wirestock </a>On Freepik</p>
+
+{% endblock %}
+</html>

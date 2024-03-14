@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="content="width=1024","height=720", initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <title>Video Compressor</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-image: url('{% static "vid_comp.jpg" %}'); /* Add your background image URL here */
+            background-size: cover;
+            background-position: center;
+        }
+
+        #container {
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        #videos {
+            display: none; /* Initially hide the video containers */
+            display: flex;
+            justify-content: space-between;
+            width: 90%;
+            margin: auto;
+        }
+
+        video {
+            width: 100%; /* Set both videos to occupy 100% of their container */
+            margin: 0 5px;
+        }
+
+        .video-label {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        #loading {
+            display: none; /* Initially hide the loading message and animation */
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        #loading-text {
+            font-size: 1.2rem;
+            margin-top: 10px;
+        }
+
+        #loading-spinner {
+            border: 6px solid #f3f3f3;  
+            border-top: 6px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 2s linear infinite;
+            text-align: center;
+            margin: 0 auto; /* Center the loading spinner horizontally */
+            margin-top: 20px; /* Adjust the top margin as needed */
+        }
+        
+
+        #download-btn {
+            margin-top: 20px;
+            display: none; /* Initially hide the download button */
+        }
+        /* Attribution text */
+        .attribution {
+            position: absolute;
+            bottom: 0px;
+            right: 10px;
+            font-size: 14px;
+            color: cyan;
+        }
+      
+        .attribution a {
+            color: yellow;
+            text-decoration: none;
+        }
+
+        h1 {
+            text-align: center;
+            background: linear-gradient(to right, blue, red);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 50px;
+        }
+        input[type="file"] { /* Style the placeholder text */
+            color: blue;
+        }
+        label {
+            font-size: 30px;
+            text-align: center;
+            background: linear-gradient(to right, red, pink);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        /* Download button style */
+        #download-btn {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 10px 20px; /* Adjusted padding */
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none; /* Initially hide the download button */
+            margin-right: 30%;
+            margin-left: 30%;
+
+        }
+        
+        .video-label {
+            font-size: 30px;
+            margin-bottom: 5px;
+            background: linear-gradient(to right, cyan, lavender); /* Text color gradient */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        #loading-text {
+            font-size: 20px;
+            background: linear-gradient(to right, cyan, yellow); /* Text color gradient */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1>Video Compressor</h1><br>
+        <form id="videoForm" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name="video" accept="video/*" required><br><br>
+            <label for="bitrate">Select Target Resolution: [Please Select Less Than Your Current Resolution]</label><br><br>
+            <select name="bitrate" id="bitrate">
+                <option value="500">360p (>90% Size Reduction)</option>
+                <option value="1000">480p (>80% Size Reduction)</option>
+                <option value="1500">720p (>70% Size Reduction)</option>
+                <option value="2250">1080p (>55% Size Reduction)</option>
+            </select><br><br>
+            <input type="submit" id="compressBtn" value="Compress Video">
+        </form>
+        <div id="loading">
+            <div id="loading-spinner"></div><br>
+            <p id="loading-text">Your Video Is Being Compressed. For Large File Sizes, It May Take Upto 1 Hour. Please Wait.</p>
+        </div>
+        <div id="videos">
+            <div style="width: 48%;">
+                <p class="video-label">Input Video</p>
+                <video id="inputVideo" controls></video>
+            </div>
+            <div style="width: 48%;">
+                <p class="video-label">Compressed Video</p>
+                <video id="compressedVideoPlayer" controls autoplay></video>
+            </div>
+        </div>
+        <a id="download-btn" href="#" download="compressed_video.mp4">Download Compressed Video</a>
+    </div>
+    <p class="attribution">Background-Image By <a href="https://www.freepik.com/free-photo/abstract-green-background-from-brilliant-mosaic-pattern-generative-ai_40991718.htm#page=19&query=futuristic%20background&position=2&from_view=keyword&track=ais&uuid=70de6d62-9d04-494c-8b08-105b25b2af33">pvproductions</a> On Freepik</p>
+    <script>
+        // Function to hide the loading message and video containers
+        function hideLoadingAndVideos() {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('videos').style.display = 'none';
+        }
+
+        // Call the function when the page is first loaded
+        hideLoadingAndVideos();
+
+        document.getElementById('videoForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+        
+            // Lock the "Compress Video" button
+            document.getElementById('compressBtn').disabled = true;
+        
+            // Show the loading message
+            document.getElementById('loading').style.display = 'block';
+        
+            const formData = new FormData(this);
+        
+            try {
+                const response = await fetch('', {
+                    method: 'POST',
+                    body: formData
+                });
+        
+                const data = await response.json();
+        
+                // Load the input video for comparison
+                const inputVideo = document.getElementById('inputVideo');
+                const videoFile = formData.get('video');
+                inputVideo.src = URL.createObjectURL(videoFile);
+        
+                // Show the video containers after loading the videos
+                document.getElementById('videos').style.display = 'flex';
+        
+                // Show the download button
+                document.getElementById('download-btn').style.display = 'block';
+        
+                // Start both videos
+                inputVideo.play(); // Start the input video
+                document.getElementById('compressedVideoPlayer').src = data.compressed_video_path; // Set the src for the compressed video
+                document.getElementById('compressedVideoPlayer').play(); // Start the compressed video
+            } catch (error) {
+                console.error('Error:', error);
+            } finally {
+                // Hide the loading message
+                document.getElementById('loading').style.display = 'none';
+        
+                // Unlock the "Compress Video" button
+                document.getElementById('compressBtn').disabled = false;
+            }
+        });
+        
+        
+    </script>
+</body>
+</html>

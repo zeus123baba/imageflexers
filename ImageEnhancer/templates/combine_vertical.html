@@ -1,0 +1,115 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="content="width=1024","height=720", initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <title>Image Combiner - Vertical</title>
+    <style>
+        body {
+            background-image: url('{% static "img_ver.jpg" %}');
+            background-size: cover;
+            background-position: center;
+            font-family: Arial, sans-serif;
+            text-align: center; /* Center text horizontally */
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center form vertically */
+            justify-content: center; /* Center form horizontally */
+            height: 100vh; /* Make sure the form fills the entire viewport height */
+            margin: 0;
+            padding: 0;
+            margin-top: -25px;
+        }
+
+        h1, h2 {
+            color: white; /* Set text color to white */
+            font-size: 40px;
+        }
+
+        form {
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 500px; /* Limit the width of the form */
+        }
+
+        label, input[type="file"], input[type="submit"] {
+            display: block; /* Display form elements as blocks */
+            margin-bottom: 10px;
+        }
+
+        label {
+            font-size: 20px;
+            background: linear-gradient(to right, white, white);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        input[type="file"] {
+            color: yellow;
+        }
+
+        input[type="submit"] {
+            margin: auto;
+        }
+
+        img {
+            max-width: 70%;
+            height: 50%; /* Maintain aspect ratio of images */
+            margin-top: 5px;
+        }
+
+        .download-button {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .download-button:hover {
+            background-color: #45a049;
+        }
+        /* Attribution text */
+        .attribution {
+            position: absolute;
+            bottom: 0px;
+            right: 10px;
+            font-size: 14px;
+            color: green;
+        }
+      
+        .attribution a {
+            color: yellow;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Image Combiner - Vertical</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="image1">Upload First Image:</label>
+        <input type="file" id="image1" name="image1" accept="image/*" required><br>
+
+        <label for="image2">Upload Second Image:</label>
+        <input type="file" id="image2" name="image2" accept="image/*" required><br>
+
+        <input type="submit" value="Combine Images">
+    </form>
+
+    {% if combined_image_url %}
+        <h2>Combined Image:</h2>
+        <img src="{{ combined_image_url }}" alt="Combined Image">
+        <a href="{{ combined_image_url }}" download="combined_image.jpg" class="download-button">Download Image</a>
+    {% endif %}
+    <p class="attribution">Background-Image By <a href="https://www.freepik.com/free-photo/3d-rendering-hexagonal-texture-background_66626544.htm#page=18&query=futuristic%20background&position=24&from_view=keyword&track=ais&uuid=70de6d62-9d04-494c-8b08-105b25b2af33">freepik</a> On Freepik</p>
+</body>
+</html>

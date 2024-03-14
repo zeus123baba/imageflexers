@@ -1,0 +1,113 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="content="width=1024","height=720", initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <title>Image Classifier</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-image: url('{% static "img_class.jpg" %}');
+            background-size: cover;
+            background-position: center;
+        }
+        .title {
+            background: linear-gradient(to right, green, cyan);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+            font-size: 60px;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+        form {
+            text-align: center;
+        }
+        /* Attribution text */
+        .attribution {
+            position: absolute;
+            bottom: 0px;
+            right: 10px;
+            font-size: 14px;
+            color: green;
+        }
+      
+        .attribution a {
+            color: yellow;
+            text-decoration: none;
+        }
+        input[type="file"] { /* Style the placeholder text */
+          color: yellow;
+        }
+        /* Center the output image */
+        img {
+            display: block;
+            margin: 20px auto;
+            max-width: 100%;
+            max-height: 300px; /* Adjust the maximum height as needed */
+        }
+
+        h2 {
+            text-align: center;
+            /* Apply color gradient from blue to purple */
+            background: linear-gradient(to right, blue, purple);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 30px;
+            font-weight: bold;
+            margin-top: 20px; /* Add margin top for spacing */
+        }
+
+        .download-btn {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #4CAF50; /* Green */
+            border: none;
+            border-radius: 5px;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        /* Attribution text */
+        .attribution {
+            position: absolute;
+            bottom: 0px;
+            right: 10px;
+            font-size: 14px;
+            color: green;
+        }
+      
+        .attribution a {
+            color: yellow;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1 class="title">Image Classifier</h1> <br><br>
+        <form action="{% url 'classify_image' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name="image" accept="image/*" required><br><br><br><br>
+            <button type="submit">Classify Image</button>
+        </form>
+
+        {% if output_image %}
+        <h2>Output Image</h2>
+        <img src="{{ output_image }}" alt="Output Image">
+        <a class="download-btn" href="{{ output_image }}" download>Download Output Image</a>
+        {% endif %}
+    </div>
+    <p class="attribution">Background-Image By <a href="https://www.freepik.com/free-photo/empty-dark-room-modern-futuristic-sci-fi-background-3d-illustration_21835218.htm#fromView=search&page=1&position=18&uuid=de4469d9-f7d0-4cce-ae98-d198af2bb63d">user6702303</a> On Freepik</p>
+
+</body>
+</html>

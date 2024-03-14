@@ -1,0 +1,143 @@
+<!-- citations.html -->
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Citations</title>
+</head>
+<body>
+    <h1>Citations & Licences</h1>
+    <ul>
+        <li>
+            CompVis/ldm-super-resolution-4x-openimages For Image Resolution Enhancer:
+            <ul>
+                <li>Developer: CompVis</li>
+                <li>Citations: Authors: Robin Rombach, Andreas Blattmann, Dominik Lorenz, Patrick Esser, Björn Ommer</li>
+                <li>License: <a href="{% static "apache_licence_CompVis_img_enh.txt" %}">License Details</a></li>
+            </ul>
+        </li><br>
+        <li>
+            facebook/detr-resnet-50 For Object Detection & Image Classifier:
+            <ul>
+                <li>Developer: facebook</li>
+                <li>Citations: @article{DBLP:journals/corr/abs-2005-12872,<br>
+                    author    = {Nicolas Carion and<br>
+                                 Francisco Massa and<br>
+                                 Gabriel Synnaeve and<br>
+                                 Nicolas Usunier and<br>
+                                 Alexander Kirillov and<br>
+                                 Sergey Zagoruyko},<br>
+                    title     = {End-to-End Object Detection with Transformers},<br>
+                    journal   = {CoRR},<br>
+                    volume    = {abs/2005.12872},<br>
+                    year      = {2020},<br>
+                    url       = {https://arxiv.org/abs/2005.12872},<br>
+                    archivePrefix = {arXiv},<br>
+                    eprint    = {2005.12872},<br>
+                    timestamp = {Thu, 28 May 2020 17:38:09 +0200},<br>
+                    biburl    = {https://dblp.org/rec/journals/corr/abs-2005-12872.bib},<br>
+                    bibsource = {dblp computer science bibliography, https://dblp.org}<br>
+                  }
+                  </li>
+                <li>License: <a href="{% static "apache_licence_facebook_img_detect_class.txt" %}">License Details</a></li>
+            </ul>
+        </li><br>
+        <li>
+            segmind/SSD-1B For Image Generator:
+            <ul>
+                <li>Developer: segmind</li>
+                <li>Citations: @misc{gupta2024progressive,<br>
+                    title={Progressive Knowledge Distillation Of Stable Diffusion XL Using Layer Level Loss}, <br>
+                    author={Yatharth Gupta and Vishnu V. Jaddipal and Harish Prabhala and Sayak Paul and Patrick Von Platen},<br>
+                    year={2024},<br>
+                    eprint={2401.02677},<br>
+                    archivePrefix={arXiv},<br>
+                    primaryClass={cs.CV}<br>
+              }
+              </li>
+                <li>License: <a href="{% static "apache_licence_segmind_img_gen.txt" %}">License Details</a></li>
+            </ul>
+        </li><br>
+        <li>
+            Intel/dpt-beit-large-512 For Depth Analysis:
+            <ul>
+                <li>Developer: Intel</li>
+                <li>Citations: @article{DBLP:journals/corr/abs-2103-13413,<br>
+                    author    = {Ren{\'{e}} Reiner Birkl, Diana Wofk, Matthias Muller},<br>
+                    title     = {MiDaS v3.1 – A Model Zoo for Robust Monocular Relative Depth Estimation},<br>
+                    journal   = {CoRR},<br>
+                    volume    = {abs/2307.14460},<br>
+                    year      = {2021},<br>
+                    url       = {https://arxiv.org/abs/2307.14460},<br>
+                    eprinttype = {arXiv},<br>
+                    eprint    = {2307.14460},<br>
+                    timestamp = {Wed, 26 Jul 2023},<br>
+                    biburl    = {https://dblp.org/rec/journals/corr/abs-2307.14460.bib},<br>
+                    bibsource = {dblp computer science bibliography, https://dblp.org}<br>
+                  }
+                  </li>
+                <li>License: <a href="{% static "mit_licence_intell.txt" %}">License Details</a></li>
+            </ul>
+        </li><br>
+        <li>
+            microsoft/git-base-textvqa For Image Questioning:
+            <ul>
+                <li>Developer: microsoft</li>
+                <li>Citations: @article{wang2022git,<br>
+                    title={GIT: A Generative Image-to-text Transformer for Vision and Language},<br>
+                    author={Wang, Jianfeng and Yang, Zhengyuan and Hu, Xiaowei and Li, Linjie and Lin, Kevin and Gan, Zhe and Liu, Zicheng and Liu, Ce and Wang, Lijuan},<br>
+                    journal={arXiv preprint arXiv:2205.14100},<br>
+                    year={2022}<br>
+                  }</li>
+                <li>License: <a href="{% static "mit_licence_microsoft_ing2txt.txt" %}">License Details</a></li>
+            </ul>
+        </li><br>
+        <li>
+            timbrooks/instruct-pix2pix For Image Editor (Redesigner):
+            <ul>
+                <li>Developer: timbrooks</li>
+                <li>Citations: @article{brooks2022instructpix2pix,<br>
+                    title={InstructPix2Pix: Learning to Follow Image Editing Instructions},<br>
+                    author={Brooks, Tim and Holynski, Aleksander and Efros, Alexei A},<br>
+                    journal={arXiv preprint arXiv:2211.09800},<br>
+                    year={2022}<br>
+                  }</li>
+                <li>License: <a href="{% static "mit_licence_tim.txt" %}">License Details</a></li>
+            </ul>
+        </li><br>
+                <li>
+            instruction-tuning-sd/cartoonizer For Image Cartoonizer:
+            <ul>
+                <li>Developer: instruction-tuning-sd</li>
+                <li>Citations: @article{<br>
+                    Paul2023instruction-tuning-sd,<br>
+                    author = {Paul, Sayak},<br>
+                    title = {Instruction-tuning Stable Diffusion with InstructPix2Pix},<br>
+                    journal = {Hugging Face Blog},<br>
+                    year = {2023},<br>
+                    note = {https://huggingface.co/blog/instruction-tuning-sd},<br>
+                  }
+                  </li>
+                <li>License: <a href="{% static "mit_licence_inst.txt" %}">License Details</a></li>
+            </ul>
+        </li><br>
+        <li>
+            microsoft/git-base-vatex For Video Questioning:
+            <ul>
+                <li>Developer: microsoft</li>
+                <li>Citation: @article{wang2022git,<br>
+                    title={GIT: A Generative Image-to-text Transformer for Vision and Language},<br>
+                    author={Wang, Jianfeng and Yang, Zhengyuan and Hu, Xiaowei and Li, Linjie and Lin, Kevin and Gan, Zhe and Liu, Zicheng and Liu, Ce and Wang, Lijuan},<br>
+                    journal={arXiv preprint arXiv:2205.14100},<br>
+                    year={2022}<br>
+                  }</li>
+                <li>License: <a href="{% static "mit_licence_microsoft_ing2txt.txt" %}">License Details</a></li>
+            </ul>
+        </li><br>
+        <!-- Add more models as needed -->
+    </ul>
+</body>
+</html>

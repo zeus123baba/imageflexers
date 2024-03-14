@@ -1,0 +1,102 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="content="width=1024","height=720", initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <title>Image Questioning</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-image: url('{% static "img_ques.jpg" %}'); /* Replace 'path/to/background-image.jpg' with your image path */
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+        }
+        form {
+            text-align: center;
+            font-size: 20px;
+        }
+        textarea, input[type="file"], button {
+            margin: 10px; /* Adjust margin as needed */
+        }
+        .download-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            background-color: blue;
+            color: white;
+            cursor: pointer;
+        }
+        h1 {
+            font-size: 50px;
+            font-weight: bold;
+            background: linear-gradient(to right, red, orange);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        label {
+            font-size: 30px;
+            font-weight: bold;
+            background: linear-gradient(to right, red, orange);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        h2 {
+            font-size: 30px;
+            font-weight: bold;
+            background: linear-gradient(to right, yellow, cyan); /* Adjust gradient colors as needed */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        p.output-text {
+            font-size: 40px;
+            font-weight: bold;
+            background: linear-gradient(to right, cyan, green); /* Adjust gradient colors as needed */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        /* Attribution text */
+        .attribution {
+            position: absolute;
+            bottom: 0px;
+            right: 10px;
+            font-size: 14px;
+            color: green;
+        }
+      
+        .attribution a {
+            color: yellow;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>Image Questioning</h1>
+        <form action="{% url 'process_image_questioning' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="image" style="background: linear-gradient(to right, yellow, cyan); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Upload Image:</label><br>
+            <input type="file" name="image" accept="image/*" required><br><br>
+            <label for="prompt" style="background: linear-gradient(to right, yellow, cyan); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Enter Text Prompt:</label><br>
+            <textarea name="prompt" rows="4" cols="50" maxlength=100 required></textarea><br><br>
+            <button type="submit">Submit</button>
+        </form>
+
+        {% if output %}
+        <h2>Output:</h2>
+        <p class="output-text">{{ output }}</p>
+        {% endif %}
+    </div>
+    <p class="attribution">Background-Image By <a href="https://www.freepik.com/free-vector/gradient-connection-background_45184461.htm#page=5&query=futuristic%20background&position=14&from_view=keyword&track=ais&uuid=70de6d62-9d04-494c-8b08-105b25b2af33">freepik</a> On Freepik</p>
+
+
+</body>
+</html>

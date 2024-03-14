@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="content="width=1024","height=720", initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <title>Video FPS Changer</title>
+    <style>
+        /* Reset default margin and padding */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url('{% static "vid_fps.jpg" %}');
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+            height: 100vh;
+            overflow: auto; /* Enables scrolling when content overflows */
+
+        }
+        .container {
+            width: auto;
+            max-width: 1000px; /* Adjust as needed */
+        }
+        .video-container {
+            display: flex;
+            justify-content: space-between; /* Align videos side by side */
+            margin-top: 10px; /* Adjust margin top for spacing */
+            width: 700px;
+            height: 400px;
+        }
+        .video-container video {
+            width: 400px;; /* Adjust the width */
+            height: 250px;
+            padding: 120px;
+            margin: 0 auto;
+            margin-left: -170px;
+            margin-top: -120px; /* Adjust margin top for spacing */
+
+        }
+        .download-button {
+            margin-top: 30px;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            background-color: blue;
+            color: white;
+            cursor: pointer;
+            margin-left: 30px;
+            margin: 0 auto;
+
+        }
+        .title {
+            font-size: 50px;
+            font-weight: bold;
+            background: linear-gradient(to right, white, white);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .label-text {
+            font-size: 30px;
+            font-weight: bold;
+            background: linear-gradient(to right, white, white);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        input[type="file"] { /* Style the placeholder text */
+            color: yellow;
+        }
+
+        /* Download button style */
+        #download-btn {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 10px;
+            width: 200px;
+            right: 50px;
+            margin-top: -100px;
+        }
+
+        /* Download button hover effect */
+        #download-btn:hover {
+            background-color: #45a049;
+        }
+
+        img {
+            width: 300px;
+            height: 200px;
+        }
+        /* Loading animation */
+        .loader {
+            border: 8px solid #f3f3f3; /* Light grey */
+            border-top: 8px solid #1BD3E3; /* Blue */
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+            margin-top: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        /* Color gradient for loading text */
+        #loading-text {
+            background: linear-gradient(to right, white, white);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 30px;
+        }
+        /* Attribution text */
+        .attribution {
+            position: absolute;
+            bottom: 0px;
+            right: 10px;
+            font-size: 14px;
+            color: green;
+        }
+      
+        .attribution a {
+            color: yellow;
+            text-decoration: none;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .output-container h2 {
+            margin-left: 50px; /* Adjust as needed */
+            font-size: 40px;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">Video FPS Changer</h1><br>
+        <form id="videoForm" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="video" class="label-text">Upload Video:</label><br><br>
+            <input type="file" name="video" accept="video/*" required><br><br>
+            <label for="fps" class="label-text">Select FPS (1-120):</label><br><br>
+            <input type="number" name="fps" id="fps" min="1" max="120" required><br><br>
+            <button id="changeFpsBtn" type="submit">Change Video FPS</button>
+        </form>
+        <!-- Loading elements -->
+        <div id="loading" class="loader" style="display: none;"></div>
+        <p id="loading-text" style="display: none;">Your Video FPS Are Being Changed. For Large Video Sizes, It May Take Upto 1 Hour. Please Wait.</p>
+        
+        <div id="outputVideo" class="output-container" style="display: none;">
+            <h2>Input Video:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Output Video:</h2>
+            <div class="video-container">
+                <video id="inputVideo" controls autoplay></video>
+                <video id="outputVideoElement" controls autoplay></video>
+            </div>
+            <a id="download-btn" href="#" download="output_video.mp4" class="download-button" style="display: none;">Download Output Video</a>
+        </div>
+        <div id="loading" class="loader" style="display: none;"></div>
+        <p id="loading-text" style="display: none;">Your Video Is Being Processed. Please Wait.</p>
+    </div>
+    <p class="attribution">Background-Image By <a href="https://www.freepik.com/free-photo/3d-neon-lights-background_60000655.htm#page=5&query=futuristic%20background&position=42&from_view=keyword&track=ais&uuid=70de6d62-9d04-494c-8b08-105b25b2af33">freepik</a> On Freepik</p>
+
+    <script>
+        const videoForm = document.getElementById('videoForm');
+        const changeFpsBtn = document.getElementById('changeFpsBtn');
+        const loading = document.getElementById('loading');
+        const loadingText = document.getElementById('loading-text');
+        const outputVideo = document.getElementById('outputVideo');
+        const downloadBtn = document.getElementById('download-btn');
+
+        videoForm.addEventListener('submit', async function(event) {
+            event.preventDefault();
+            changeFpsBtn.disabled = true;
+            loading.style.display = 'block'; // Show loading symbol
+            loadingText.style.display = 'block'; // Show loading text
+        
+            const formData = new FormData(this);
+        
+            try {
+                const response = await fetch('', {
+                    method: 'POST',
+                    body: formData
+                });
+        
+                const data = await response.json();
+                const inputVideoElement = document.getElementById('inputVideo');
+                const outputVideoElement = document.getElementById('outputVideoElement'); // Changed id here
+                inputVideoElement.src = URL.createObjectURL(this.querySelector('input[type=file]').files[0]);
+                outputVideoElement.src = data.output_video_path;
+                downloadBtn.href = data.output_video_path;
+                outputVideo.style.display = 'block';
+                downloadBtn.style.display = 'block';
+            } catch (error) {
+                console.error('Error:', error);
+            } finally {
+                changeFpsBtn.disabled = false;
+                loading.style.display = 'none'; // Hide loading symbol
+                loadingText.style.display = 'none'; // Hide loading text
+            }
+        });
+        
+
+        // Hide videos and download button when change FPS button is clicked again
+        changeFpsBtn.addEventListener('click', function() {
+            outputVideo.style.display = 'none';
+            downloadBtn.style.display = 'none';
+        });
+    </script>
+</body>
+</html>
